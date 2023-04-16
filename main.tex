@@ -80,7 +80,7 @@ Given the recent successes of the transformer model [cite] in the domain of lang
 \subsection{Models}
 
 \section{Evaluation}
-Our evaluation criteria consisted of expected cost, precision, recall and our chosen loss function was weighted binary cross entropy (WBCE). The formulas for precision and recall are the following:
+Our evaluation criteria consisted of expected cost, precision, recall and our chosen loss function was Weighted Binary Cross Entropy (WBCE). The formulas for precision and recall are the following:
 \[Precision = \frac{TP}{TP+FP}\]
 \[Recall = \frac{TP}{TP+FN}	    (1)\]     %Fix this     
 Where TP indicates a True Positive, FP indicates a False Positive and FN indicates a false negative whose values we can get after performing our 5-fold cross validation and generating a confusion matrix. For our expected cost, we first assign false positives and false negatives a cost. False negatives are assigned a cost of 5 whereas false positives are assigned a cost of 1. Then we use the following formula: 
