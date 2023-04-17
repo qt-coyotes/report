@@ -87,9 +87,9 @@ Mange in Coyotes }
 
 
 \section{Background}
-Detecting sarcoptic mange in coyotes (Canis latrans) is a critical task for
-wildlife conservation and ecology. Sarcoptic mange, caused by the Sarcoptes
-scabei mite, is the predominant form of mange in coyotes. It leads to severe
+Detecting sarcoptic mange in coyotes (\textit{Canis latrans}) is a critical task for
+wildlife conservation and ecology. Sarcoptic mange, caused by the \textit{Sarcoptes
+scabei} mite, is the predominant form of mange in coyotes. It leads to severe
 inflammation and symptoms such as fur loss, darkened skin, and self-inflicted
 wounds due to intense irritation [cite] and in worse cases, blindness,
 hypothermia and eventually death. As mange is highly contagious and often goes
@@ -102,7 +102,7 @@ Camera trapping, widely employed in wildlife observation and located in coyote
 habitats, captures consecutive images upon detecting motion, with approximately
 30-second intervals between them. These camera traps provide valuable data for
 detecting mange in coyotes; however, the quality of the acquired data poses
-challenges to our research problem. As shown in Figure 1, the trained neural
+challenges to our research problem, see Figure~\ref{fig:fig1}, the trained neural
 network must detect mange in coyotes within challenging images, including
 situations where coyotes blend with their surroundings, images captured at night
 with poor illumination, blurry images due to motion, images with only a portion
@@ -129,16 +129,17 @@ intervention and treatment of mange, and ultimately contribute to the health of
 coyote populations and the balance of ecosystems.
 
 To showcase our research progress and findings, we have structured this report
-into several sections. We initiate with the task description in section 2 to
-establish the context of our study, followed by a literature review in section 3
-that explores relevant works. Section 4 delves into our methodology, covering
+into several sections. We initiate with the task description in Section
+\ref{sec:task description} to
+establish the context of our study, followed by a literature review in Section 3
+that explores relevant works. Section \ref{sec:methods} delves into our methodology, covering
 the various approaches and techniques we employed in pursuit of our objectives.
-Section 5 then outlines the metrics and evaluation methods used to assess our
+Section \ref{sec:evaluation} then outlines the metrics and evaluation methods used to assess our
 model's performance, providing a quantitative understanding of our results.
-Section 6 discusses our results in detail, addressing limitations and exploring
+Section \ref{sec:discussion} discusses our results in detail, addressing limitations and exploring
 potential avenues for future work.
 
-\section{Task Description}
+\section{Task Description} \label{sec:task description}
 Our task is to identify sarcoptic mange in coyotes from camera trap images by
 developing a binary classification algorithm. To illustrate the task more
 concretely, Figure 2 shows a simple example: given an input image of a coyote
@@ -194,7 +195,7 @@ their sum by the number of folds to calculate the average binary expected cost
 for the model. The closer the value of the binary expected cost is to zero, the
 better the classification performance of the model.
 
-\section{Methods}
+\section{Methods} \label{sec:methods}
 In this section, we will discuss the approaches we took to address the
 challenges of detecting sarcoptic mange in coyotes, detailing the methods
 developed for each stage of our framework. Our method framework is divided into
@@ -330,7 +331,7 @@ chose to not pursue transformer methods any further.
 
 \subsection{Models}
 
-\section{Evaluation}
+\section{Evaluation} \label{sec:evaluation}
 We use 5-fold cross validation to evaluate our models. The data is grouped by
 location, all camera trap images from one location are grouped into the same
 fold, to prevent data leakage between folds. The folds are stratified by mange
@@ -363,7 +364,7 @@ mange that are detected.
 We calculate 95\% confidence intervals for all metrics using the standard
 deviation of the metric across the folds.
 
-\section{Results}
+\section{Results} \label{sec:results}
 
 \begin{table}
   \caption{Metrics of our model and three baselines}
@@ -381,9 +382,9 @@ deviation of the metric across the folds.
   \end{tabular}
 \end{table}
 
-\section{Discussion}
+\section{Discussion} \label{sec:discussion}
 
-\subsection{Conclusion}
+\subsection{Conclusion}\label{sec:conclusion}
 
 \subsection{Future Research}
 Given the comparative scarcity of labeled data and the difficulty associated
@@ -391,7 +392,7 @@ with unsupervised learning in such a noisy setting, we suggest further research
 consider co-learning and other semi-supervised learning methods to take
 advantage of this readily available data.
 
-\section{Acknowledgements}
+\section{Acknowledgements} \label{sec:acknowledgements}
 We would like to thank our domain experts Tiziana A. Gelmi Candusso, Sage
 Raymond, Maureen Murray, and Mason Fidino, who provided us with the coyote
 camera trap data and their domain expertise to guide us along this journey. We
