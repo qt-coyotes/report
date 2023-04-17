@@ -1,4 +1,6 @@
 \documentclass{article}
+% ready for submission
+\usepackage[final]{neurips_2023}
 
 % Language setting
 % Replace `english' with e.g. `spanish' to change the document language
@@ -6,24 +8,68 @@
 
 % Set page size and margins
 % Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+% \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[colorlinks, linkcolor = black, citecolor=red]{hyperref}
+\usepackage[colorlinks, linkcolor = black, citecolor=black]{hyperref}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+%\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
 
 \title{Binary Image Classification on Camera Trap Data for Detecting Sarcoptic Mange in Coyotes
 }
-\author{S. Tang, A. Izuko, Y. Yu, T. V. Maren, M. Famobiwo, S. Masannat
+
+\author{
+  Moyinoluwa Famobiwo \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{famobiwo@ualberta.ca} \\
+  \And
+  Steven Tang \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{stang5@ualberta.ca} \\
+  \AND 
+  Tim Van Maren \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{vanmaren@ualberta.ca} \\
+  \And
+  Akemi Izuko \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{izuko@ualberta.ca} \\
+  \AND
+  Yongshan Yu \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{yongshan@ualberta.ca} \\
+  \And 
+  Sanad Masannat \\
+  Department of Computing Science \\
+  University of Alberta \\
+  \texttt{sanad@ualberta.ca} \\
 }
+
 
 \begin{document}
 \maketitle
 
+
 \begin{abstract}
-In recent decades, Convolutional Neural Networks (CNNs) have made remarkable progress in image processing domains, such as animal detection and skin disease classification. However, applying this technology to a novel domain involving both tasks presents new challenges that require exploration into Artificial Intelligence (AI) methods which can appropriately handle these constraints. This study explores the application of these technologies to a novel domain: detecting sarcoptic mange in coyotes using camera trap data. We conduct an extensive literature review, focusing on signs of animal skin diseases including mange, state-of-the-art neural network architectures, and advanced data pre-processing methods. We examine their strengths and weaknesses in addressing the unique challenges posed by this specific domain, providing insights into the difficulties of using camera trap images for wildlife skin disease detection and suggesting potential solutions to overcome these challenges. We propose a Residual Neural Network model and data pre-processing steps, which improve on the baseline expected cost provided by domain experts by 30\%, while also achieving a recall of 76\% on a locationally-disjoint test set. We further provide valuable insights and guidance regarding further application of ML in the domain of zoology and emphasize the importance of developing more robust models tailored to specific domains.
+  In recent decades, Convolutional Neural Networks (CNNs) have made remarkable progress in image processing domains, such as animal detection and skin disease classification. However, applying this technology to a novel domain involving both tasks presents new challenges that require exploration into Artificial Intelligence (AI) methods which can appropriately handle these constraints. This study explores the application of these technologies to a novel domain: detecting sarcoptic mange in coyotes using camera trap data. We conduct an extensive literature review, focusing on signs of animal skin diseases including mange, state-of-the-art neural network architectures, and advanced data pre-processing methods. We examine their strengths and weaknesses in addressing the unique challenges posed by this specific domain, providing insights into the difficulties of using camera trap images for wildlife skin disease detection and suggesting potential solutions to overcome these challenges. We propose a Residual Neural Network model and data pre-processing steps, which improve on the baseline expected cost provided by domain experts by 30\%, while also achieving a recall of 76\% on a locationally-disjoint test set. We further provide valuable insights and guidance regarding further application of ML in the domain of zoology and emphasize the importance of developing more robust models tailored to specific domains.
 \end{abstract}
+
 
 \section{Background}
 Detecting sarcoptic mange in coyotes (Canis latrans) is a critical task for wildlife conservation and ecology. Sarcoptic mange, caused by the Sarcoptes scabei mite, is the predominant form of mange in coyotes. It leads to severe inflammation and symptoms such as fur loss, darkened skin, and self-inflicted wounds due to intense irritation [cite] and in worse cases, blindness, hypothermia and eventually death. As mange is highly contagious and often goes undetected until it is too late for recovery, it is essential to develop an efficient detection method to aid in timely intervention and treatment.
