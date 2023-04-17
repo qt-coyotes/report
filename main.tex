@@ -41,7 +41,7 @@
   Department of Computing Science \\
   University of Alberta \\
   \href{mailto: stang5@ualberta.ca}{\texttt{stang5@ualberta.ca}} \\
-  \AND 
+  \AND
   Tim Van Maren \\
   Department of Computing Science \\
   University of Alberta \\
@@ -56,7 +56,7 @@
   Department of Computing Science \\
   University of Alberta \\
   \href{mailto: yongshan@ualberta.ca}{\texttt{yongshan@ualberta.ca}} \\
-  \And 
+  \And
   Sanad Masannat \\
   Department of Computing Science \\
   University of Alberta \\
@@ -86,7 +86,7 @@ As shown in Figure 1, the trained neural network must detect mange in coyotes wi
 
 By employing these techniques, we aim to develop an image classification algorithm capable of accurately detecting mange in coyotes. This will significantly improve the efficiency of mange detection, alleviate the workload of ecologists and wildlife conservationists, provide robust support for timely intervention and treatment of mange, and ultimately contribute to the health of coyote populations and the balance of ecosystems.
 
-To showcase our research progress and findings, we have structured this report into several sections. We initiate with the task description in section 2 to establish the context of our study, followed by a literature review in section 3 that explores relevant works. Section 4 delves into our methodology, covering the various approaches and techniques we employed in pursuit of our objectives. Section 5 then outlines the metrics and evaluation methods used to assess our model's performance, providing a quantitative understanding of our results. Section 6 discusses our results in detail, addressing limitations and exploring potential avenues for future work. 
+To showcase our research progress and findings, we have structured this report into several sections. We initiate with the task description in section 2 to establish the context of our study, followed by a literature review in section 3 that explores relevant works. Section 4 delves into our methodology, covering the various approaches and techniques we employed in pursuit of our objectives. Section 5 then outlines the metrics and evaluation methods used to assess our model's performance, providing a quantitative understanding of our results. Section 6 discusses our results in detail, addressing limitations and exploring potential avenues for future work.
 
 \section{Task Description}
 Our task is to identify sarcoptic mange in coyotes from camera trap images by developing a binary classification algorithm. To illustrate the task more concretely, Figure 2 shows a simple example: given an input image of a coyote captured by a camera trap, our model makes a prediction and labels the image as either "mange detected" or "mange not detected" based on its previously learned knowledge. The output consists of a single class label, which corresponds to mange detected (1) or mange non detected (0).
@@ -136,6 +136,26 @@ Our domain experts [cite] provided the process they use for labeling coyotes for
 
 However, the original paper only tests results on language models, a domain with significantly less noise than camera trap images. As such, our functions encoding the process described above were thrown off by the additional noise too much to be useful. For the first instance, our functions labeled almost all images as containing a mange-tail, due to picking up the twigs and branches in the background, instead of the tail. Further, when we labeled a random subset of our data, we found only 61\% of the images contained the coyote’s tail. For the second step, we attempted texture-based computer vision, though as found by other studies, most of our images had too low resolutions to accurately detect differences in fur texture[cite?]. In the end, the domain-knowledge encoding resulted in largely random labeling, so we were unable to use the unsupervised data.
 
+\subsection{Loss Function}
+
+For our loss function, we decided to use weighted binary cross entropy (wBCE).
+wBCE is a loss metric in which a parameter alpha is placed on  regular Binary
+Cross Entropy loss in which said parameter will penalize false positives or
+negatives more depending on the value of the parameter. In our case, we want to
+penalize false negatives more so we set the alpha value to a value lower than 1.
+There were a few reasons as to why we chose to use WBCE. The first reason is
+that in our tests against other weight loss functions, it proved to be the best
+out of all the other metrics. The second major reason is that the idea of
+weighted BCE matched the aforementioned goal of attaining a 1:5 ratio of False
+Positives and Negatives in which we are penalized more for false negatives.
+Below is the formula for weighted binary cross entropy loss:
+\[
+-\frac{1}{M}\sum_{m-1}^{M}\alpha \cdot y \cdot \log(y(\hat{z}))-(1-y)\cdot\log(y(\hat{z}))
+\]
+in which $\log(y(\hat{z}))$ is the output of the model, $\alpha$ is the weight
+parameter and the training weight.
+
+
 \subsection{Vision Transformers}
 Given the recent successes of the transformer model [cite] in the domain of language processing, computer vision research quickly adopted the architecture [cite some early paper].  Previous work using visual attention models showed promising results, particularly in classifying settings where the majority of the image is not relevant to the classification, such as housing numbers on streetview data [cite]. When applied to both the MegaDetector-cropped and uncropped camera trap images, we saw much higher recall rates with 49\% compared to the average 33\% on cropped images and 72\% compared to 50\% on uncropped images. Despite good performance on recall, the visual transformers had extremely high expected cost, often matching or even performing worse than the all-positive baseline. As our final evaluation metric is 5:1 expected cost, we chose to not pursue transformer methods any further.
 
@@ -144,17 +164,10 @@ Given the recent successes of the transformer model [cite] in the domain of lang
 \section{Evaluation}
 Our evaluation criteria consisted of expected cost, precision, recall and our chosen loss function was Weighted Binary Cross Entropy (WBCE). The formulas for precision and recall are the following:
 \[Precision = \frac{TP}{TP+FP}\]
-\[Recall = \frac{TP}{TP+FN}	    (1)\]     %Fix this     
-Where TP indicates a True Positive, FP indicates a False Positive and FN indicates a false negative whose values we can get after performing our 5-fold cross validation and generating a confusion matrix. For our expected cost, we first assign false positives and false negatives a cost. False negatives are assigned a cost of 5 whereas false positives are assigned a cost of 1. Then we use the following formula: 
+\[Recall = \frac{TP}{TP+FN}	    (1)\]     %Fix this
+Where TP indicates a True Positive, FP indicates a False Positive and FN indicates a false negative whose values we can get after performing our 5-fold cross validation and generating a confusion matrix. For our expected cost, we first assign false positives and false negatives a cost. False negatives are assigned a cost of 5 whereas false positives are assigned a cost of 1. Then we use the following formula:
 \[EC_5 = \frac{5FN + FP}{N}\]
 and aim to minimize the output. The ideal expected cost here would be 0 but as we know that is unrealistic, our aim is to minimize this cost as much as we can. When our baseline model classifies all coyotes with no mange, we get an expected cost of 0.86. Within our tests, this was the highest we have gotten and our goal was to get a lower value.  The reason we assign the costs the way we have done is upon consultation with our domain expert, we learned that while a False Positive is not ideal and we should minimize it, a False Negative is even worse as we are letting an infected coyote roam free and infect others in the pack, thus leading to a higher cost in the future. We were also informed that the ideal ratio of false positives to false negatives was a 1:5 ratio. Using that, we decided to use the aforementioned expected cost formula.
-
-For our loss function, we decided to use weighted binary cross entropy. WBCE is a loss metric in which a parameter alpha is placed on  regular Binary Cross Entropy loss in which said parameter will penalize false positives or negatives more depending on the value of the parameter. In our case, we want to penalize false negatives more so we set the alpha value to a value lower than 1. There were a few reasons as to why we chose to use WBCE. The first reason is that in our tests against other weight loss functions, it proved to be the best out of all the other metrics. The second major reason is that the idea of weighted BCE matched the aforementioned goal of attaining a 1:5 ratio of False Positives and Negatives in which we are penalized more for false negatives. Below is the formula for weighted binary cross entropy loss:
-\[
--\frac{1}{M}\sum_{m-1}^{M}\alpha \cdot y \cdot \log(y(\hat{z}))-(1-y)\cdot\log(y(\hat{z})) 
-\]
-in which $\log(y(\hat{z}))$ is the output of the model, $\alpha$ is the weight parameter and the training weight.
-
 
 \section{Results}
 
