@@ -297,23 +297,29 @@ data.
 
 \subsection{Loss Function}
 
-For our loss function, we decided to use weighted binary cross entropy (wBCE).
-wBCE is a loss metric in which a parameter alpha is placed on  regular Binary
-Cross Entropy loss in which said parameter will penalize false positives or
-negatives more depending on the value of the parameter. In our case, we want to
-penalize false negatives more so we set the alpha value to a value lower than 1.
-There were a few reasons as to why we chose to use WBCE. The first reason is
-that in our tests against other weight loss functions, it proved to be the best
-out of all the other metrics. The second major reason is that the idea of
-weighted BCE matched the aforementioned goal of attaining a 1:5 ratio of False
-Positives and Negatives in which we are penalized more for false negatives.
-Below is the formula for weighted binary cross entropy loss:
-\[
--\frac{1}{M}\sum_{m-1}^{M}\alpha \cdot y \cdot \log(y(\hat{z}))-(1-y)\cdot\log(y(\hat{z}))
-\]
-in which $\log(y(\hat{z}))$ is the output of the model, $\alpha$ is the weight
-parameter and the training weight.
+We use weighted binary cross entropy (wBCE) as our loss function.
+wBCE is a loss function in which a parameter $p$ modifies Binary
+Cross Entropy loss to penalize false positives or negatives differently to
+account for class imbalance in our dataset.
 
+  \begin{equation}
+  \ell(x, y) = \frac{1}{N}\sum_{i = 1}^N p \cdot y_i \cdot \log f(x_i)
++ (1 - y_i) \cdot \log (1 - f(x_i)),
+\end{equation}
+where $f(x_i)$ is the output of our model for the $i$-th sample with input $x_i$
+and label $y_i$, and $p$ is the weight of positive examples.
+We set $p$ to be the ratio of the number of no mange detected samples to the
+number of mange detected samples in the training set to adjust for the class
+imbalance in our dataset.
+\begin{equation}
+  p = \frac{N_{\text{no mange detected}}}{N_{\text{mange detected}}}
+\end{equation}
+
+Empirically, we found that using wBCE loss performs consistently better than BCE
+loss. We tried other loss functions: Expected Cost, Macro Soft F$\beta$ [TODO
+cite], and Surrogate F$\beta$ [TODO cite], however, they did not perform as well
+as wBCE. wBCE loss also has the advantage of aligning with our evaluation
+criteria in which false negatives are penalized more than false positives.
 
 \subsection{Vision Transformers}
 Given the recent successes of the transformer model [cite] in the domain of
