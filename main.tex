@@ -367,12 +367,12 @@ mange that are detected.
   \text{Precision} = \frac{TP}{TP+FP} \qquad \text{Recall} = \frac{TP}{TP+FN}
 \end{equation}
 
-We calculate 95\% confidence intervals for all metrics using the standard
-deviation of the metric across the folds.
+We calculate 95\% confidence intervals for all metrics by rerunning cross
+validation 30 times and taking the standard deviation of the results.
 
 \section{Results} \label{sec:results}
 
-\begin{table}
+\begin{table}[h!]
   \caption{Metrics of our model and three baselines}
   \label{results}
   \centering
