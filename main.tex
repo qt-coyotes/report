@@ -24,6 +24,8 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
+\usepackage{hyperref}       % emails
+\usepackage{marvosym}
 
 
 \title{Binary Image Classification on Camera Trap Data for Detecting Sarcoptic Mange in Coyotes
@@ -33,32 +35,32 @@
   Moyinoluwa Famobiwo \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{famobiwo@ualberta.ca} \\
+  \href{mailto: famobiwo@ualberta.ca}{\texttt{famobiwo@ualberta.ca}} \\
   \And
   Steven Tang \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{stang5@ualberta.ca} \\
+  \href{mailto: stang5@ualberta.ca}{\texttt{stang5@ualberta.ca}} \\
   \AND 
   Tim Van Maren \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{vanmaren@ualberta.ca} \\
+  \href{mailto: vanmaren@ualberta.ca}{\texttt{vanmaren@ualberta.ca}} \\
   \And
   Akemi Izuko \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{izuko@ualberta.ca} \\
+  \href{mailto: izuko@ualberta.ca}{\texttt{izuko@ualberta.ca}} \\
   \AND
   Yongshan Yu \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{yongshan@ualberta.ca} \\
+  \href{mailto: yongshan@ualberta.ca}{\texttt{yongshan@ualberta.ca}} \\
   \And 
   Sanad Masannat \\
   Department of Computing Science \\
   University of Alberta \\
-  \texttt{sanad@ualberta.ca} \\
+  \href{mailto: sanad@ualberta.ca}{\texttt{sanad@ualberta.ca}} \\
 }
 
 
@@ -76,7 +78,11 @@ Detecting sarcoptic mange in coyotes (Canis latrans) is a critical task for wild
 In response to the need for accurate sarcoptic mange detection in coyotes, we propose a binary image classification algorithm based on camera trap data to classify images into two categories: mange detected or mange not detected. Camera trapping, widely employed in wildlife observation and located in coyote habitats, captures consecutive images upon detecting motion, with approximately 30-second intervals between them. These camera traps provide valuable data for detecting mange in coyotes; however, the quality of the acquired data poses challenges to our research problem.
 As shown in Figure 1, the trained neural network must detect mange in coyotes within challenging images, including situations where coyotes blend with their surroundings, images captured at night with poor illumination, blurry images due to motion, images with only a portion of the coyote visible, and images featuring multiple close-up coyotes. The limited amount of training data available for this task exacerbates these challenges. To address these issues, we explore various image processing techniques and approaches designed to improve the neural network's performance in detecting mange under a range of conditions.
 
-%Figure 1%
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{fig1.jpeg}
+\caption{\label{fig:fig1}Examples of challenging images from our datasets: a) The coyote blends with its surroundings. b) Image with only a portion of the coyote visible. c) Image captured at night with poor illumination. d) Image blurry due to coyote motion. e) Multiple close-up coyotes in one image.}
+\end{figure}
 
 By employing these techniques, we aim to develop an image classification algorithm capable of accurately detecting mange in coyotes. This will significantly improve the efficiency of mange detection, alleviate the workload of ecologists and wildlife conservationists, provide robust support for timely intervention and treatment of mange, and ultimately contribute to the health of coyote populations and the balance of ecosystems.
 
@@ -143,7 +149,6 @@ in which $\log(y(\hat{z}))$ is the output of the model, $\alpha$ is the weight p
 \section{Results}
 
 \section{Discussion}
-There were a few issues and limitations we encountered along the way. One of the major issues we encountered early on was that there was not enough or any research done within mange detection or anything similar to mange. This made it difficult to initially find our footing but as time progressed we started to get rough ideas on approaching the task. The second limiting factor we dealt with was time. Had we had enough time, we could have implemented and tested out other approaches and combinations of tabular features we did not have enough time to test such as the SuperLearner. When we received our data, we realized that there were a few hurdles we had encountered. In some cases, the coyote was obscured by objects which meant it was difficult to initially find. In other cases, we found out that the image of the coyote was blurred leading to some data looking like the below picture (insert coyote blurry pic). In other cases, we also had other animals alongside the coyote in the picture such as porcupines, red foxes and magpies which led to even more problems processing the data. Regarding the processing of data, from a machine learning standpoint, the data proved to be difficult to learn from. This is because we get many different pictures from the same camera. We would get the same coyote at a different time stamp from the same camera. However, we do acknowledge the expensive cost of getting different images from different cameras.
 
 \section{Conclusion}
 
