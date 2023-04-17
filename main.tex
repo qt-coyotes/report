@@ -90,7 +90,13 @@ To showcase our research progress and findings, we have structured this report i
 
 \section{Task Description}
 Our task is to identify sarcoptic mange in coyotes from camera trap images by developing a binary classification algorithm. To illustrate the task more concretely, Figure 2 shows a simple example: given an input image of a coyote captured by a camera trap, our model makes a prediction and labels the image as either "mange detected" or "mange not detected" based on its previously learned knowledge. The output consists of a single class label, which corresponds to mange detected (1) or mange non detected (0).
-%Figure 2
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{fig2.jpeg}
+\caption{\label{fig:fig2}A simple example of our task: the input is a coyote image captured by a camera trap, and the desired output is a single class label indicating mange detected (1) or mange not detected (0).}
+\end{figure}
+
 Our labeled dataset consists of approximately 15,000 images from camera traps in North America, specifically in Toronto, Chicago, and Edmonton. Around 2,000 (14\%) of these images are labeled as "mange detected." Human annotators determined the labels, which are provided in \verb|.csv| files alongside the images. The data set also includes timestamps and approximate locations for each image. To pre-process our data set, we employed techniques that may be beneficial for training, such as accurately cropping around coyotes using the MegaDetector and applying data augmentation to underrepresented categories to enhance the model's generalizability.
 
 For training and evaluation of the models, we adopted a 5-fold cross-validation approach due to the relatively small size of our data set. This approach involves dividing the data set into five equal folds, which allows for more reliable performance estimates and facilitates the selection of the optimal model \cite{Berrar2019, Schaffer1993}. In each iteration of the validation process, four of the five folds are combined to form the training set, while the remaining fold serves as the validation set. This procedure is repeated five times, ensuring that each fold is used as a validation set exactly once, and the overall model performance is assessed by averaging the results from all five iterations.
@@ -109,7 +115,11 @@ To achieve this, we used MegaDetector, an AI model specifically trained to detec
 
 Figure 3 provides a simple example of data preprocessing. In our study, MegaDetector was employed to identify the bounding box around the coyote in each image. After obtaining the bounding boxes, we cropped the images based on these boxes. This approach retained some background elements while emphasizing the coyote itself, allowing us to concentrate on the essential features for mange detection and minimize the impact of extraneous background information.
 
-% Figure 3
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{fig3.jpeg}
+\caption{\label{fig:fig3}An example of data preprocessing using MegaDetector. The original camera trap image of a coyote with extraneous background information (left) is processed by MegaDetector, which identifies the bounding box around the coyote in the image (indicated by the arrow). The cropped image based on the bounding box emphasizes the coyote and minimizes the influence of the background, allowing for better mange detection.}
+\end{figure}
 
 \subsubsection{MegaDetector}
 Megadetector [cite] is an object detection model trained specifically on camera-trap images. It’s able to identify, label, and provide a bounding box for 3 categories: human, vehicle, and animal. An accurate bounding box reduces the noise in the image by quickly removing the majority of the image in most pictures. Before cropping our entire dataset, we used human labellers to evaluate how often the key features our domain experts said were important in identifying mange were contained in Megadetector’s bounding box. We found 82\% of bounding boxes for images with tails were able to capture over 50\% of the original tail within their bounds. However, when our model was trained using images cropped to Megadetector’s bounding box, the model consistently failed to attain the same recall scores, despite hyperparameter tuning on both models. See section 6 for a further discussion.
