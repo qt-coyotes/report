@@ -331,29 +331,34 @@ chose to not pursue transformer methods any further.
 \subsection{Models}
 
 \section{Evaluation}
-Our evaluation criteria consisted of expected cost, precision, recall and our
-chosen loss function was Weighted Binary Cross Entropy (WBCE). The formulas for
-precision and recall are the following:
-\[Precision = \frac{TP}{TP+FP}\]
-\[Recall = \frac{TP}{TP+FN}	    (1)\]     %Fix this
-Where TP indicates a True Positive, FP indicates a False Positive and FN
-indicates a false negative whose values we can get after performing our 5-fold
-cross validation and generating a confusion matrix. For our expected cost, we
-first assign false positives and false negatives a cost. False negatives are
-assigned a cost of 5 whereas false positives are assigned a cost of 1. Then we
-use the following formula:
-\[EC_5 = \frac{5FN + FP}{N}\] and aim to minimize the output. The ideal expected
-cost here would be 0 but as we know that is unrealistic, our aim is to minimize
-this cost as much as we can. When our baseline model classifies all coyotes with
-no mange, we get an expected cost of 0.86. Within our tests, this was the
-highest we have gotten and our goal was to get a lower value.  The reason we
-assign the costs the way we have done is upon consultation with our domain
-expert, we learned that while a False Positive is not ideal and we should
-minimize it, a False Negative is even worse as we are letting an infected coyote
-roam free and infect others in the pack, thus leading to a higher cost in the
-future. We were also informed that the ideal ratio of false positives to false
-negatives was a 1:5 ratio. Using that, we decided to use the aforementioned
-expected cost formula.
+We use 5-fold cross validation to evaluate our models. The data is grouped by
+location, all camera trap images from one location are grouped into the same
+fold, to prevent data leakage between folds. The folds are stratified by mange
+label to ensure that each fold has a similar proportion of images with and
+without mange.
+
+Our main evaluation metric is expected cost. There are two main costs in our
+problem, a false positive ($FP$) results in a detection of a healthy coyote as
+mangy, this results in a cost to the domain expert who has to filter it out
+manually. On the other hand, a false negative ($FN$) means that a coyote with
+mange is not detected, and could potentially infect other coyotes. In
+consultation with our domain expert, for the purpose of this paper a false
+negative costs 5 times more than a false positive.
+
+\begin{equation}
+  EC_5 = \frac{5FN + FP}{N}
+\end{equation}
+
+Note that $N$ is the total number of data samples and a lower expected cost is
+better.
+
+We will also report precision and recall metrics as they are useful in
+interpreting our results. Precision is the proportion of coyotes with mange
+detected that actually have mange, and recall is the proportion of coyotes with
+mange that are detected.
+\begin{equation}
+  \text{Precision} = \frac{TP}{TP+FP} \qquad \text{Recall} = \frac{TP}{TP+FN}
+\end{equation}
 
 \section{Results}
 
