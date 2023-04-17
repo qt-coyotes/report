@@ -360,7 +360,26 @@ mange that are detected.
   \text{Precision} = \frac{TP}{TP+FP} \qquad \text{Recall} = \frac{TP}{TP+FN}
 \end{equation}
 
+We calculate 95\% confidence intervals for all metrics using the standard
+deviation of the metric across the folds.
+
 \section{Results}
+
+\begin{table}
+  \caption{Metrics of our model and three baselines}
+  \label{results}
+  \centering
+  \begin{tabular}{llll}
+    \topfigrule
+    Model     & Expected Cost     & Precision & Recall \\
+    \midrule
+    Ours & $\mathbf{0.62} \pm 2.21$ & $\mathbf{0.24} \pm 0.12$ & $0.68 \pm 0.38$     \\
+    All Positive & $0.83 \pm 0.11$    & $0.00 \pm 0.00$ & $\mathbf{1.00} \pm 0.00$     \\
+    All Negative & $0.86 \pm 8.34$    & $0.17 \pm 0.00$ & $0.00 \pm 0.00$     \\
+    Random & $0.84 \pm 4.11$    & $0.17 \pm 0.11$ & $0.50 \pm 0.06$     \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Discussion}
 
